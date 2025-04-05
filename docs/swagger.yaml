@@ -37,8 +37,6 @@ definitions:
     type: object
   dto.UpdateRequest:
     properties:
-      id:
-        type: integer
       repository:
         type: string
       tag:
@@ -98,7 +96,7 @@ info:
   title: MelhorzinCraft API
   version: "1.0"
 paths:
-  /images:
+  /docker/images:
     post:
       consumes:
       - application/json
@@ -132,7 +130,7 @@ paths:
       summary: Create a new Docker image
       tags:
       - images
-  /images/{id}:
+  /docker/images/{id}:
     delete:
       description: Deletes a Docker image by ID
       parameters:

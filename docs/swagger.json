@@ -9,7 +9,7 @@
     "host": "localhost:8080",
     "basePath": "/api/v1",
     "paths": {
-        "/images": {
+        "/docker/images": {
             "post": {
                 "description": "Creates a new Docker image with the specified tag and repository",
                 "consumes": [
@@ -61,7 +61,7 @@
                 }
             }
         },
-        "/images/{id}": {
+        "/docker/images/{id}": {
             "get": {
                 "description": "Gets a Docker image by ID",
                 "produces": [
@@ -269,9 +269,6 @@
         "dto.UpdateRequest": {
             "type": "object",
             "properties": {
-                "id": {
-                    "type": "integer"
-                },
                 "repository": {
                     "type": "string"
                 },
