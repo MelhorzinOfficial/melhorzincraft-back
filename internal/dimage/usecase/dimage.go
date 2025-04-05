@@ -30,7 +30,7 @@ func (i *ImageUC) Save(ctx context.Context, req *dto.CreateRequest) response.Res
 		Repository: req.Repository,
 	}
 
-	if err := i.repo.Save(ctx, &image); err != nil {
+	if err := i.repo.Create(ctx, &image); err != nil {
 		return response.NewBadRequest[dto.CreateResponse](err.Error())
 	}
 
