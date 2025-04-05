@@ -19,6 +19,16 @@ type CreateResponse struct {
 	*DockerImage
 }
 
+type UpdateRequest struct {
+	Id         int    `uri:"id"`
+	Tag        string `json:"tag"`
+	Repository string `json:"repository"`
+}
+
+type UpdateResponse struct {
+	*DockerImage
+}
+
 type ShowRequest struct {
 	Id int `uri:"id"`
 }

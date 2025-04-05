@@ -56,6 +56,42 @@ func (i *ImageUC) Create(ctx context.Context, req *dto.CreateRequest) response.R
 	})
 }
 
+func (i *ImageUC) Update(ctx context.Context, req *dto.UpdateRequest) response.Response[dto.UpdateResponse] {
+	if err := i.v.Struct(req); err != nil {
+		return response.NewBadRequest[dto.UpdateResponse](err.Error())
+	}
+
+	image, err := i.repo.FindById(ctx, req.Id)
+	if err != nil {
+		if errors.Is(err, oserror.ErrNotFound) {
+			return response.NewNotFound[dto.UpdateResponse](err.Error())
+		}
+		return response.NewBadRequest[dto.UpdateResponse](err.Error())
+	}
+
+	if req.Tag != "" && req.Tag != image.Tag {
+		image.Tag = req.Tag
+	}
+
+	if req.Repository != "" && req.Repository != image.Repository {
+		image.Repository = req.Repository
+	}
+
+	if err := i.repo.Update(ctx, image); err != nil {
+		return response.NewInternalServerError[dto.UpdateResponse]()
+	}
+
+	return response.NewSuccess[dto.UpdateResponse](dto.UpdateResponse{
+		DockerImage: &dto.DockerImage{
+			Id:         image.Id,
+			Tag:        image.Tag,
+			Repository: image.Repository,
+			CreatedAt:  image.CreatedAt.UTC(),
+			UpdatedAt:  image.UpdatedAt.UTC(),
+		},
+	})
+}
+
 func (i *ImageUC) Show(ctx context.Context, req *dto.ShowRequest) response.Response[dto.ShowResponse] {
 	if err := i.v.Struct(req); err != nil {
 		return response.NewBadRequest[dto.ShowResponse](err.Error())
