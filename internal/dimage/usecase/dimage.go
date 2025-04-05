@@ -64,9 +64,9 @@ func (i *ImageUC) Update(ctx context.Context, req *dto.UpdateRequest) *response.
 	image, err := i.repo.FindById(ctx, req.Id)
 	if err != nil {
 		if errors.Is(err, oserror.ErrNotFound) {
-			return response.NewNotFound[dto.UpdateResponse](err.Error())
+			return response.NewNotFound[dto.UpdateResponse]()
 		}
-		return response.NewBadRequest[dto.UpdateResponse](err.Error())
+		return response.NewInternalServerError[dto.UpdateResponse]()
 	}
 
 	if req.Tag != "" && req.Tag != image.Tag {
@@ -100,7 +100,7 @@ func (i *ImageUC) Show(ctx context.Context, req *dto.ShowRequest) *response.Resp
 	image, err := i.repo.FindById(ctx, req.Id)
 	if err != nil {
 		if errors.Is(err, oserror.ErrNotFound) {
-			return response.NewNotFound[dto.ShowResponse](err.Error())
+			return response.NewNotFound[dto.ShowResponse]()
 		}
 
 		return response.NewBadRequest[dto.ShowResponse](err.Error())
@@ -125,9 +125,9 @@ func (i *ImageUC) Delete(ctx context.Context, req *dto.DeleteRequest) *response.
 	image, err := i.repo.FindById(ctx, req.Id)
 	if err != nil {
 		if errors.Is(err, oserror.ErrNotFound) {
-			return response.NewNotFound[dto.DeleteResponse](err.Error())
+			return response.NewNotFound[dto.DeleteResponse]()
 		}
-		return response.NewNotFound[dto.DeleteResponse](err.Error())
+		return response.NewNotFound[dto.DeleteResponse]() // TODO: server error
 	}
 
 	if err := i.repo.Delete(ctx, image); err != nil {

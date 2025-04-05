@@ -17,11 +17,11 @@ func NewBadRequest[T any](message string) *Response[T] {
 	}
 }
 
-func NewNotFound[T any](message string) *Response[T] {
+func NewNotFound[T any]() *Response[T] {
 	return &Response[T]{
 		Code:    404,
 		Error:   true,
-		Message: message,
+		Message: oserror.ErrNotFound.Error(),
 	}
 }
 

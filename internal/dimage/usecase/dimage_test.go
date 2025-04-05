@@ -126,3 +126,125 @@ func TestImageUC_Create(t *testing.T) {
 		})
 	}
 }
+
+func TestImageUC_Update(t *testing.T) {
+	type fields struct {
+		repo dimage.Repository
+		v    *validator.Validate
+	}
+	type args struct {
+		req *dto.UpdateRequest
+	}
+
+	ctrl := gomock.NewController(t)
+	m := mock.NewMockRepository(ctrl)
+
+	tests := map[string]struct {
+		fields fields
+		args   args
+		setup  func(m *mock.MockRepository)
+		want   *response.Response[dto.UpdateResponse]
+	}{
+		"create success": {
+			fields: fields{
+				repo: m,
+				v:    validator.New(),
+			},
+			args: args{
+				req: &dto.UpdateRequest{
+					Id:         1,
+					Tag:        "latest",
+					Repository: "test/test",
+				},
+			},
+			setup: func(m *mock.MockRepository) {
+				di := &dimage.DockerImage{
+					Id:         1,
+					Tag:        "latest",
+					Repository: "test/test",
+					CreatedAt:  time.Unix(0, 0).UTC(),
+					UpdatedAt:  time.Unix(0, 0).UTC(),
+					DeletedAt:  nil,
+				}
+
+				m.EXPECT().FindById(gomock.Any(), 1).Return(di, nil)
+
+				m.EXPECT().Update(gomock.Any(), di).
+					DoAndReturn(func(ctx context.Context, obj *dimage.DockerImage) error {
+						obj.Tag = "updated"
+						obj.Repository = "updated/test"
+						return nil
+					})
+			},
+			want: &response.Response[dto.UpdateResponse]{
+				Code:    200,
+				Error:   false,
+				Message: "success",
+				Data: dto.UpdateResponse{
+					DockerImage: &dto.DockerImage{
+						Id:         1,
+						Tag:        "updated",
+						Repository: "updated/test",
+						CreatedAt:  time.Unix(0, 0).UTC(),
+						UpdatedAt:  time.Unix(0, 0).UTC(),
+					},
+				},
+			},
+		},
+		"not found": {
+			fields: fields{
+				repo: m,
+				v:    validator.New(),
+			},
+			args: args{
+				req: &dto.UpdateRequest{
+					Id:         1,
+					Tag:        "latest",
+					Repository: "test/test",
+				},
+			},
+			setup: func(m *mock.MockRepository) {
+				m.EXPECT().FindById(gomock.Any(), 1).Return(nil, oserror.ErrNotFound)
+			},
+			want: &response.Response[dto.UpdateResponse]{
+				Code:    404,
+				Error:   true,
+				Message: oserror.ErrNotFound.Error(),
+			},
+		},
+		"server error": {
+			fields: fields{
+				repo: m,
+				v:    validator.New(),
+			},
+			args: args{
+				req: &dto.UpdateRequest{
+					Id:         1,
+					Tag:        "latest",
+					Repository: "test/test",
+				},
+			},
+			setup: func(m *mock.MockRepository) {
+				m.EXPECT().FindById(gomock.Any(), 1).Return(nil, errors.New("server error"))
+			},
+			want: &response.Response[dto.UpdateResponse]{
+				Code:    500,
+				Error:   true,
+				Message: oserror.ErrServer.Error(),
+			},
+		},
+	}
+	for n, tt := range tests {
+		t.Run(n, func(t *testing.T) {
+			i := &ImageUC{
+				repo: tt.fields.repo,
+				v:    tt.fields.v,
+			}
+
+			tt.setup(m)
+
+			got := i.Update(t.Context(), tt.args.req)
+			assert.Equal(t, tt.want, got)
+		})
+	}
+}
