@@ -15,7 +15,7 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/images": {
+        "/docker/images": {
             "post": {
                 "description": "Creates a new Docker image with the specified tag and repository",
                 "consumes": [
@@ -67,7 +67,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/images/{id}": {
+        "/docker/images/{id}": {
             "get": {
                 "description": "Gets a Docker image by ID",
                 "produces": [
@@ -275,9 +275,6 @@ const docTemplate = `{
         "dto.UpdateRequest": {
             "type": "object",
             "properties": {
-                "id": {
-                    "type": "integer"
-                },
                 "repository": {
                     "type": "string"
                 },

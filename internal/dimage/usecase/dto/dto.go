@@ -20,7 +20,7 @@ type CreateResponse struct {
 }
 
 type UpdateRequest struct {
-	Id         int    `uri:"id"`
+	Id         int    `uri:"id" swaggerignore:"true"`
 	Tag        string `json:"tag"`
 	Repository string `json:"repository"`
 }

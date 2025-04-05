@@ -1,22 +1,14 @@
 package main
 
 import (
-	"context"
 	"errors"
 	"fmt"
-	"github.com/MelhorzinOfficial/melhorzincraft-back/internal/dimage/repository"
-	"github.com/MelhorzinOfficial/melhorzincraft-back/internal/dimage/usecase"
 	"log"
-	"net/http"
-
-	"github.com/MelhorzinOfficial/melhorzincraft-back/internal/dimage/delivery"
+	"strings"
 
 	_ "github.com/MelhorzinOfficial/melhorzincraft-back/docs"
-	"github.com/MelhorzinOfficial/melhorzincraft-back/internal/infra/db"
-	infra_http "github.com/MelhorzinOfficial/melhorzincraft-back/internal/infra/http"
-	"github.com/gin-gonic/gin"
-	"go.uber.org/fx"
-	"gorm.io/gorm"
+	"github.com/MelhorzinOfficial/melhorzincraft-back/internal/config"
+	"github.com/spf13/viper"
 )
 
 // @title MelhorzinCraft API
@@ -25,69 +17,44 @@ import (
 // @host localhost:8080
 // @BasePath /api/v1
 func main() {
-	app := fx.New(
-		fx.Provide(
-			newConfig,
-			func(cfg *AppConfig) *infra_http.Config {
-				return &cfg.HTTP
-			},
-			func(cfg *AppConfig) *db.Config {
-				return &cfg.DB
-			},
-			infra_http.NewServer,
-			db.NewClient,
-			newHTTPServer,
-			usecase.New,
-			repository.New,
-		),
-		fx.Invoke(
-			delivery.RegisterRoutes,
-			startHTTPServer,
-			func(db *gorm.DB) {
-				log.Println("Database connected")
-			},
-		),
-	)
+	var cfg config.Config
 
-	app.Run()
-}
+	v := initViper()
 
-// TODO: refactor this
-type AppConfig struct {
-	HTTP infra_http.Config
-	DB   db.Config
-}
-
-func newConfig() *AppConfig {
-	return &AppConfig{
-		HTTP: infra_http.Config{
-			Port: 8080,
-		},
-		DB: db.Config{
-			Url: "sqlite://melhorzincraft.db",
-		},
+	if err := v.Unmarshal(&cfg); err != nil {
+		log.Fatalf("Error loading configurations: %v", err)
 	}
+
+	cfg.Start()
 }
 
-func startHTTPServer(lifecycle fx.Lifecycle, server *http.Server) {
-	lifecycle.Append(fx.Hook{
-		OnStart: func(ctx context.Context) error {
-			go func() {
-				if err := server.ListenAndServe(); err != nil && !errors.Is(err, http.ErrServerClosed) {
-					log.Fatalf("Error starting server: %v", err)
-				}
-			}()
-			return nil
-		},
-		OnStop: func(ctx context.Context) error {
-			return server.Shutdown(ctx)
-		},
-	})
-}
+func initViper() *viper.Viper {
+	v := viper.New()
 
-func newHTTPServer(cfg *AppConfig, engine *gin.Engine) *http.Server {
-	return &http.Server{
-		Addr:    fmt.Sprintf(":%d", cfg.HTTP.Port),
-		Handler: engine,
+	v.AutomaticEnv()
+	v.SetEnvKeyReplacer(strings.NewReplacer(".", "_"))
+
+	v.SetConfigName("config")
+	v.SetConfigType("yaml")
+	v.AddConfigPath(".")
+	v.AddConfigPath("./configs")
+
+	setDefaults(v)
+
+	if err := v.ReadInConfig(); err != nil {
+		var configFileNotFoundError viper.ConfigFileNotFoundError
+		if errors.As(err, &configFileNotFoundError) {
+			fmt.Println("Configuration file not found, using environment variables and default values")
+		}
+	} else {
+		fmt.Printf("Using configuration file: %s\n", v.ConfigFileUsed())
 	}
+
+	return v
+}
+
+func setDefaults(v *viper.Viper) {
+	v.SetDefault("http.address", ":8080")
+
+	v.SetDefault("db.url", "sqlite://:memory:")
 }
