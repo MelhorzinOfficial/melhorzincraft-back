@@ -4,8 +4,12 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"github.com/MelhorzinOfficial/melhorzincraft-back/internal/dimage/repository"
+	"github.com/MelhorzinOfficial/melhorzincraft-back/internal/dimage/usecase"
 	"log"
 	"net/http"
+
+	"github.com/MelhorzinOfficial/melhorzincraft-back/internal/dimage/delivery"
 
 	_ "github.com/MelhorzinOfficial/melhorzincraft-back/docs"
 	"github.com/MelhorzinOfficial/melhorzincraft-back/internal/infra/db"
@@ -33,8 +37,11 @@ func main() {
 			infra_http.NewServer,
 			db.NewClient,
 			newHTTPServer,
+			usecase.New,
+			repository.New,
 		),
 		fx.Invoke(
+			delivery.RegisterRoutes,
 			startHTTPServer,
 			func(db *gorm.DB) {
 				log.Println("Database connected")
@@ -52,7 +59,6 @@ type AppConfig struct {
 }
 
 func newConfig() *AppConfig {
-	// Valores padrão da configuração
 	return &AppConfig{
 		HTTP: infra_http.Config{
 			Port: 8080,
