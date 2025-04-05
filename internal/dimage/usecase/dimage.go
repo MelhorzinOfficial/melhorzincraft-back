@@ -13,6 +13,7 @@ import (
 func New(repo dimage.Repository) *ImageUC {
 	return &ImageUC{
 		repo: repo,
+		v:    validator.New(),
 	}
 }
 

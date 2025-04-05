@@ -12,15 +12,15 @@ import (
 )
 
 // RegisterRoutes registers image routes in the router
-func RegisterRoutes(g *gin.RouterGroup, imageUC *usecase.ImageUC) {
+func RegisterRoutes(g *gin.Engine, imageUC *usecase.ImageUC) {
 	h := handler{
 		imageUC: imageUC,
 	}
 
-	g.POST("/images", h.Create)
-	g.PUT("/images/:id", h.Update)
-	g.GET("/images/:id", h.Get)
-	g.DELETE("/images/:id", h.Delete)
+	g.POST("/api/v1/images", h.Create)
+	g.PUT("/api/v1/images/:id", h.Update)
+	g.GET("/api/v1/images/:id", h.Get)
+	g.DELETE("/api/v1/images/:id", h.Delete)
 }
 
 type handler struct {

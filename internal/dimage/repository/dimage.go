@@ -8,6 +8,10 @@ import (
 )
 
 func New(db *gorm.DB) (dimage.Repository, error) {
+	if err := db.AutoMigrate(&dimage.DockerImage{}); err != nil {
+		return nil, err
+	}
+
 	rr, err := repository.NewRepository[dimage.DockerImage](db)
 	if err != nil {
 		return nil, err
