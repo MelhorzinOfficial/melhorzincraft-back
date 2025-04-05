@@ -248,3 +248,110 @@ func TestImageUC_Update(t *testing.T) {
 		})
 	}
 }
+
+func TestImageUC_Show(t *testing.T) {
+	type fields struct {
+		repo dimage.Repository
+		v    *validator.Validate
+	}
+	type args struct {
+		req *dto.ShowRequest
+	}
+
+	ctrl := gomock.NewController(t)
+	m := mock.NewMockRepository(ctrl)
+
+	tests := map[string]struct {
+		fields fields
+		args   args
+		setup  func(m *mock.MockRepository)
+		want   *response.Response[dto.ShowResponse]
+	}{
+		"create success": {
+			fields: fields{
+				repo: m,
+				v:    validator.New(),
+			},
+			args: args{
+				req: &dto.ShowRequest{
+					Id: 1,
+				},
+			},
+			setup: func(m *mock.MockRepository) {
+				m.EXPECT().FindById(gomock.Any(), 1).Return(&dimage.DockerImage{
+					Id:         1,
+					Tag:        "latest",
+					Repository: "test/test",
+					CreatedAt:  time.Unix(0, 0).UTC(),
+					UpdatedAt:  time.Unix(0, 0).UTC(),
+					DeletedAt:  nil,
+				}, nil)
+			},
+			want: &response.Response[dto.ShowResponse]{
+				Code:    200,
+				Error:   false,
+				Message: "success",
+				Data: dto.ShowResponse{
+					DockerImage: &dto.DockerImage{
+						Id:         1,
+						Tag:        "latest",
+						Repository: "test/test",
+						CreatedAt:  time.Unix(0, 0).UTC(),
+						UpdatedAt:  time.Unix(0, 0).UTC(),
+					},
+				},
+			},
+		},
+		"not found": {
+			fields: fields{
+				repo: m,
+				v:    validator.New(),
+			},
+			args: args{
+				req: &dto.ShowRequest{
+					Id: 1,
+				},
+			},
+			setup: func(m *mock.MockRepository) {
+				m.EXPECT().FindById(gomock.Any(), 1).Return(nil, oserror.ErrNotFound)
+			},
+			want: &response.Response[dto.ShowResponse]{
+				Code:    404,
+				Error:   true,
+				Message: oserror.ErrNotFound.Error(),
+			},
+		},
+		"server error": {
+			fields: fields{
+				repo: m,
+				v:    validator.New(),
+			},
+			args: args{
+				req: &dto.ShowRequest{
+					Id: 1,
+				},
+			},
+			setup: func(m *mock.MockRepository) {
+				m.EXPECT().FindById(gomock.Any(), 1).Return(nil, oserror.ErrServer)
+			},
+			want: &response.Response[dto.ShowResponse]{
+				Code:    500,
+				Error:   true,
+				Message: oserror.ErrServer.Error(),
+			},
+		},
+	}
+	for n, tt := range tests {
+		t.Run(n, func(t *testing.T) {
+			i := &ImageUC{
+				repo: tt.fields.repo,
+				v:    tt.fields.v,
+			}
+
+			tt.setup(m)
+
+			got := i.Show(t.Context(), tt.args.req)
+			assert.Equal(t, tt.want, got)
+		})
+	}
+}

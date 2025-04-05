@@ -103,7 +103,7 @@ func (i *ImageUC) Show(ctx context.Context, req *dto.ShowRequest) *response.Resp
 			return response.NewNotFound[dto.ShowResponse]()
 		}
 
-		return response.NewBadRequest[dto.ShowResponse](err.Error())
+		return response.NewInternalServerError[dto.ShowResponse]()
 	}
 
 	return response.NewSuccess[dto.ShowResponse](dto.ShowResponse{
