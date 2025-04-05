@@ -134,7 +134,5 @@ func (i *ImageUC) Delete(ctx context.Context, req *dto.DeleteRequest) *response.
 		return response.NewInternalServerError[dto.DeleteResponse]()
 	}
 
-	return response.NewSuccess[dto.DeleteResponse](dto.DeleteResponse{
-		Message: "Docker image deleted successfully",
-	})
+	return response.NewSuccess[dto.DeleteResponse](dto.DeleteResponse{})
 }

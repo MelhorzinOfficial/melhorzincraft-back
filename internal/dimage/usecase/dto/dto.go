@@ -42,6 +42,4 @@ type DeleteRequest struct {
 }
 
 type DeleteResponse struct {
-	Error   string `json:"error"`
-	Message string `json:"message"`
 }
