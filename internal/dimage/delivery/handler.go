@@ -12,15 +12,15 @@ import (
 )
 
 // RegisterRoutes registers image routes in the router
-func RegisterRoutes(g *gin.Engine, imageUC *usecase.ImageUC) {
+func RegisterRoutes(g *gin.RouterGroup, imageUC *usecase.ImageUC) {
 	h := handler{
 		imageUC: imageUC,
 	}
 
-	g.POST("/api/v1/images", h.Create)
-	g.PUT("/api/v1/images/:id", h.Update)
-	g.GET("/api/v1/images/:id", h.Get)
-	g.DELETE("/api/v1/images/:id", h.Delete)
+	g.POST("/images", h.Create)
+	g.PUT("/images/:id", h.Update)
+	g.GET("/images/:id", h.Get)
+	g.DELETE("/images/:id", h.Delete)
 }
 
 type handler struct {
@@ -38,7 +38,7 @@ type handler struct {
 // @Failure 400 {object} response.Response[any] "Bad request"
 // @Failure 409 {object} response.Response[any] "Image already exists"
 // @Failure 500 {object} response.Response[any] "Internal server error"
-// @Router /images [post]
+// @Router /docker/images [post]
 func (h *handler) Create(c *gin.Context) {
 	var req dto.CreateRequest
 	if err := c.ShouldBindJSON(&req); err != nil {
@@ -62,7 +62,7 @@ func (h *handler) Create(c *gin.Context) {
 // @Failure 400 {object} response.Response[any] "Invalid ID or bad request"
 // @Failure 404 {object} response.Response[any] "Image not found"
 // @Failure 500 {object} response.Response[any] "Internal server error"
-// @Router /images/{id} [put]
+// @Router /docker/images/{id} [put]
 func (h *handler) Update(c *gin.Context) {
 	idStr := c.Param("id")
 	id, err := strconv.Atoi(idStr)
@@ -92,7 +92,7 @@ func (h *handler) Update(c *gin.Context) {
 // @Failure 400 {object} response.Response[any] "Invalid ID"
 // @Failure 404 {object} response.Response[any] "Image not found"
 // @Failure 500 {object} response.Response[any] "Internal server error"
-// @Router /images/{id} [get]
+// @Router /docker/images/{id} [get]
 func (h *handler) Get(c *gin.Context) {
 	idStr := c.Param("id")
 	id, err := strconv.Atoi(idStr)
@@ -116,7 +116,7 @@ func (h *handler) Get(c *gin.Context) {
 // @Failure 400 {object} response.Response[any] "Invalid ID"
 // @Failure 404 {object} response.Response[any] "Image not found"
 // @Failure 500 {object} response.Response[any] "Internal server error"
-// @Router /images/{id} [delete]
+// @Router /docker/images/{id} [delete]
 func (h *handler) Delete(c *gin.Context) {
 	idStr := c.Param("id")
 	id, err := strconv.Atoi(idStr)
