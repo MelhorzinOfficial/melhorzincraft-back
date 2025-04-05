@@ -22,7 +22,7 @@ type ImageUC struct {
 	v *validator.Validate
 }
 
-func (i *ImageUC) Create(ctx context.Context, req *dto.CreateRequest) response.Response[dto.CreateResponse] {
+func (i *ImageUC) Create(ctx context.Context, req *dto.CreateRequest) *response.Response[dto.CreateResponse] {
 	if err := i.v.Struct(req); err != nil {
 		return response.NewBadRequest[dto.CreateResponse](err.Error())
 	}
@@ -38,7 +38,7 @@ func (i *ImageUC) Create(ctx context.Context, req *dto.CreateRequest) response.R
 	}
 
 	if exists {
-		return response.NewConflict[dto.CreateResponse]("Docker image already exists")
+		return response.NewConflict[dto.CreateResponse](oserror.ErrDockerImageAlreadyExists.Error())
 	}
 
 	if err := i.repo.Create(ctx, &image); err != nil {
@@ -56,7 +56,7 @@ func (i *ImageUC) Create(ctx context.Context, req *dto.CreateRequest) response.R
 	})
 }
 
-func (i *ImageUC) Update(ctx context.Context, req *dto.UpdateRequest) response.Response[dto.UpdateResponse] {
+func (i *ImageUC) Update(ctx context.Context, req *dto.UpdateRequest) *response.Response[dto.UpdateResponse] {
 	if err := i.v.Struct(req); err != nil {
 		return response.NewBadRequest[dto.UpdateResponse](err.Error())
 	}
@@ -92,7 +92,7 @@ func (i *ImageUC) Update(ctx context.Context, req *dto.UpdateRequest) response.R
 	})
 }
 
-func (i *ImageUC) Show(ctx context.Context, req *dto.ShowRequest) response.Response[dto.ShowResponse] {
+func (i *ImageUC) Show(ctx context.Context, req *dto.ShowRequest) *response.Response[dto.ShowResponse] {
 	if err := i.v.Struct(req); err != nil {
 		return response.NewBadRequest[dto.ShowResponse](err.Error())
 	}
@@ -117,7 +117,7 @@ func (i *ImageUC) Show(ctx context.Context, req *dto.ShowRequest) response.Respo
 	})
 }
 
-func (i *ImageUC) Delete(ctx context.Context, req *dto.DeleteRequest) response.Response[dto.DeleteResponse] {
+func (i *ImageUC) Delete(ctx context.Context, req *dto.DeleteRequest) *response.Response[dto.DeleteResponse] {
 	if err := i.v.Struct(req); err != nil {
 		return response.NewBadRequest[dto.DeleteResponse](err.Error())
 	}

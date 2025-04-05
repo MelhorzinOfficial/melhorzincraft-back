@@ -1,4 +1,4 @@
-package mocks
+package mock
 
 import (
 	"github.com/DATA-DOG/go-sqlmock"

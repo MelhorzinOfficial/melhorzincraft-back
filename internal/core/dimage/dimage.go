@@ -5,6 +5,8 @@ import (
 	"time"
 )
 
+//go:generate mockgen -destination=./mock/mock_dimage.go -package=mock github.com/MelhorzinOfficial/melhorzincraft-back/internal/core/dimage Repository
+
 type DockerImage struct {
 	Id         int        `gorm:"primaryKey"`
 	Tag        string     `gorm:"column:tag"`

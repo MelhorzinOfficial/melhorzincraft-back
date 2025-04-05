@@ -1,7 +1,7 @@
 package repository
 
 import (
-	"github.com/MelhorzinOfficial/melhorzincraft-back/internal/core/repository/mocks"
+	"github.com/MelhorzinOfficial/melhorzincraft-back/internal/core/repository/mock"
 	"github.com/stretchr/testify/assert"
 	"gorm.io/gorm"
 	"testing"
@@ -24,7 +24,7 @@ func TestNewRepository(t *testing.T) {
 		"valid": {
 			args: args{
 				db: func() *gorm.DB {
-					db, _ := mocks.NewMockDB()
+					db, _ := mock.NewMockDB()
 					return db
 				}(),
 			},
