@@ -6,11 +6,16 @@ import (
 	"gorm.io/gorm"
 )
 
-func New(db *gorm.DB) dimage.Repository {
-	return &repo{
-		Repository: repository.NewRepository[dimage.DockerImage](db),
-		db:         db,
+func New(db *gorm.DB) (dimage.Repository, error) {
+	rr, err := repository.NewRepository[dimage.DockerImage](db)
+	if err != nil {
+		return nil, err
 	}
+
+	return &repo{
+		Repository: rr,
+		db:         db,
+	}, nil
 }
 
 type repo struct {
