@@ -20,4 +20,6 @@ func (i *DockerImage) TableName() string {
 
 type Repository interface {
 	repository.Repository[DockerImage]
+
+	ExistByTagAndRepository(tag, repository string) (bool, error)
 }

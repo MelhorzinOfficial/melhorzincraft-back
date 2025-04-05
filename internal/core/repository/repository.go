@@ -8,6 +8,8 @@ import (
 )
 
 type Repository[T any] interface {
+	DB() *gorm.DB
+
 	Create(ctx context.Context, obj *T) error
 	Update(ctx context.Context, obj *T) error
 	FindById(ctx context.Context, id int) (*T, error)
@@ -28,12 +30,16 @@ type repository[T any] struct {
 	db *gorm.DB
 }
 
+func (r *repository[T]) DB() *gorm.DB {
+	return r.db
+}
+
 func (r *repository[T]) Create(ctx context.Context, obj *T) error {
 	return r.db.WithContext(ctx).Create(obj).Error
 }
 
 func (r *repository[T]) Update(ctx context.Context, obj *T) error {
-	return r.db.WithContext(ctx).Save(obj).Error
+	return r.db.WithContext(ctx).Updates(obj).Error
 }
 
 func (r *repository[T]) FindById(ctx context.Context, id int) (*T, error) {
@@ -49,5 +55,12 @@ func (r *repository[T]) FindById(ctx context.Context, id int) (*T, error) {
 }
 
 func (r *repository[T]) Delete(ctx context.Context, obj *T) error {
-	return r.db.WithContext(ctx).Delete(obj).Error
+	if err := r.db.WithContext(ctx).Delete(obj).Error; err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return oserror.ErrNotFound
+		}
+		return err
+	}
+
+	return nil
 }

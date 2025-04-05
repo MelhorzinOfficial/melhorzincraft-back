@@ -23,11 +23,19 @@ func NewNotFound[T any](message string) Response[T] {
 	}
 }
 
-func NewInternalServerError[T any](message string) Response[T] {
+func NewConflict[T any](message string) Response[T] {
+	return Response[T]{
+		Code:    409,
+		Error:   true,
+		Message: message,
+	}
+}
+
+func NewInternalServerError[T any]() Response[T] {
 	return Response[T]{
 		Code:    500,
 		Error:   true,
-		Message: message,
+		Message: "server error",
 	}
 }
 
