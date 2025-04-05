@@ -127,7 +127,7 @@ func (i *ImageUC) Delete(ctx context.Context, req *dto.DeleteRequest) *response.
 		if errors.Is(err, oserror.ErrNotFound) {
 			return response.NewNotFound[dto.DeleteResponse]()
 		}
-		return response.NewNotFound[dto.DeleteResponse]() // TODO: server error
+		return response.NewInternalServerError[dto.DeleteResponse]()
 	}
 
 	if err := i.repo.Delete(ctx, image); err != nil {
