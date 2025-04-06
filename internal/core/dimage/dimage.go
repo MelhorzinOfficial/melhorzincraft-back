@@ -20,6 +20,10 @@ func (i *DockerImage) TableName() string {
 	return "docker_images"
 }
 
+func (i *DockerImage) GetFullTag() string {
+	return i.Repository + "/" + i.Tag
+}
+
 type Repository interface {
 	repository.Repository[DockerImage]
 
