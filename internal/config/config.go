@@ -2,6 +2,7 @@ package config
 
 import (
 	"context"
+	"github.com/MelhorzinOfficial/melhorzincraft-back/internal/infra/docker"
 
 	"github.com/MelhorzinOfficial/melhorzincraft-back/internal/infra/db"
 	"github.com/MelhorzinOfficial/melhorzincraft-back/internal/infra/http"
@@ -11,8 +12,9 @@ import (
 type Config struct {
 	fx.Out
 
-	DB   *db.Config   `mapstructure:"db"`
-	Http *http.Config `mapstructure:"http"`
+	DB     *db.Config     `mapstructure:"db"`
+	Http   *http.Config   `mapstructure:"http"`
+	Docker *docker.Config `mapstructure:"docker"`
 }
 
 func (cfg *Config) Get() Config {

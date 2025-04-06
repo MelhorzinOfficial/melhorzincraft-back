@@ -4,16 +4,18 @@ import (
 	"context"
 	"errors"
 	"github.com/MelhorzinOfficial/melhorzincraft-back/internal/core/dimage"
+	"github.com/MelhorzinOfficial/melhorzincraft-back/internal/core/docker"
 	"github.com/MelhorzinOfficial/melhorzincraft-back/internal/core/response"
 	"github.com/MelhorzinOfficial/melhorzincraft-back/internal/dimage/usecase/dto"
 	"github.com/MelhorzinOfficial/melhorzincraft-back/internal/oserror"
 	"github.com/go-playground/validator/v10"
 )
 
-func New(repo dimage.Repository) *ImageUC {
+func New(repo dimage.Repository, docker docker.Docker) *ImageUC {
 	return &ImageUC{
 		repo: repo,
 		v:    validator.New(),
+		dc:   docker,
 	}
 }
 
@@ -21,6 +23,8 @@ type ImageUC struct {
 	repo dimage.Repository
 
 	v *validator.Validate
+
+	dc docker.Docker
 }
 
 func (i *ImageUC) Create(ctx context.Context, req *dto.CreateRequest) *response.Response[dto.CreateResponse] {
@@ -40,6 +44,10 @@ func (i *ImageUC) Create(ctx context.Context, req *dto.CreateRequest) *response.
 
 	if exists {
 		return response.NewConflict[dto.CreateResponse](oserror.ErrDockerImageAlreadyExists.Error())
+	}
+
+	if err := i.dc.ImagePull(ctx, image.GetFullTag()); err != nil {
+		return response.NewInternalServerError[dto.CreateResponse]()
 	}
 
 	if err := i.repo.Create(ctx, &image); err != nil {
@@ -76,6 +84,10 @@ func (i *ImageUC) Update(ctx context.Context, req *dto.UpdateRequest) *response.
 
 	if req.Repository != "" && req.Repository != image.Repository {
 		image.Repository = req.Repository
+	}
+
+	if err := i.dc.ImagePull(ctx, image.GetFullTag()); err != nil {
+		return response.NewInternalServerError[dto.UpdateResponse]()
 	}
 
 	if err := i.repo.Update(ctx, image); err != nil {
@@ -128,6 +140,10 @@ func (i *ImageUC) Delete(ctx context.Context, req *dto.DeleteRequest) *response.
 		if errors.Is(err, oserror.ErrNotFound) {
 			return response.NewNotFound[dto.DeleteResponse]()
 		}
+		return response.NewInternalServerError[dto.DeleteResponse]()
+	}
+
+	if err := i.dc.ImageDelete(ctx, image.GetFullTag()); err != nil {
 		return response.NewInternalServerError[dto.DeleteResponse]()
 	}
 
