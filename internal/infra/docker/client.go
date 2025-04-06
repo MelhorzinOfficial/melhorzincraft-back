@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"github.com/MelhorzinOfficial/melhorzincraft-back/internal/core/docker"
+	"github.com/docker/docker/api/types/container"
 	"github.com/docker/docker/api/types/image"
 	dclient "github.com/docker/docker/client"
 	"io"
@@ -52,4 +53,19 @@ func (c *client) ImageDelete(ctx context.Context, tag string) error {
 	}
 
 	return nil
+}
+
+func (c *client) RunContainer(ctx context.Context, name string, image string) (string, error) {
+	resp, err := c.cli.ContainerCreate(ctx, &container.Config{
+		Image: image,
+	}, nil, nil, nil, name)
+	if err != nil {
+		return "", err
+	}
+
+	if err := c.cli.ContainerStart(ctx, resp.ID, container.StartOptions{}); err != nil {
+		return "", err
+	}
+
+	return resp.ID, nil
 }
