@@ -53,10 +53,10 @@ func initViper() *viper.Viper {
 	return v
 }
 
+// TODO: refactor this function to use a config struct
 func setDefaults(v *viper.Viper) {
 	v.SetDefault("http.address", ":8080")
-
 	v.SetDefault("db.url", "sqlite://:memory:")
-
 	v.SetDefault("docker.host", "unix:///Users/peliciari/.docker/run/docker.sock") // TODO: check this
+	v.SetDefault("logger.debug", true)
 }

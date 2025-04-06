@@ -2,10 +2,10 @@ package config
 
 import (
 	"context"
-	"github.com/MelhorzinOfficial/melhorzincraft-back/internal/infra/docker"
-
 	"github.com/MelhorzinOfficial/melhorzincraft-back/internal/infra/db"
+	"github.com/MelhorzinOfficial/melhorzincraft-back/internal/infra/docker"
 	"github.com/MelhorzinOfficial/melhorzincraft-back/internal/infra/http"
+	"github.com/MelhorzinOfficial/melhorzincraft-back/internal/logger"
 	"go.uber.org/fx"
 )
 
@@ -15,6 +15,7 @@ type Config struct {
 	DB     *db.Config     `mapstructure:"db"`
 	Http   *http.Config   `mapstructure:"http"`
 	Docker *docker.Config `mapstructure:"docker"`
+	Logger *logger.Config `mapstructure:"logger"`
 }
 
 func (cfg *Config) Get() Config {
@@ -23,7 +24,7 @@ func (cfg *Config) Get() Config {
 
 func (cfg *Config) Start() {
 	app := fx.New(
-		fx.Provide(cfg.Get),
+		fx.Provide(cfg.Get, logger.New),
 
 		repositories(),
 		usecases(),
