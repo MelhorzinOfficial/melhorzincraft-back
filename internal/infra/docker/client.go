@@ -32,7 +32,6 @@ type client struct {
 	cli *dclient.Client
 }
 
-// TODO: implement PullOtions
 func (c *client) ImagePull(ctx context.Context, tag string) error {
 	out, err := c.cli.ImagePull(ctx, tag, image.PullOptions{})
 	if err != nil {
@@ -45,7 +44,6 @@ func (c *client) ImagePull(ctx context.Context, tag string) error {
 	return nil
 }
 
-// TODO: implement RemoveOptions
 func (c *client) ImageDelete(ctx context.Context, tag string) error {
 	_, err := c.cli.ImageRemove(ctx, tag, image.RemoveOptions{})
 	if err != nil {
