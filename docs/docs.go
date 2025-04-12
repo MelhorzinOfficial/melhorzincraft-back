@@ -35,7 +35,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/dto.CreateRequest"
+                            "$ref": "#/definitions/github_com_MelhorzinOfficial_melhorzincraft-back_internal_dimage_usecase_dto.CreateRequest"
                         }
                     }
                 ],
@@ -43,7 +43,7 @@ const docTemplate = `{
                     "200": {
                         "description": "Image created successfully",
                         "schema": {
-                            "$ref": "#/definitions/response.Response-dto_CreateResponse"
+                            "$ref": "#/definitions/response.Response-github_com_MelhorzinOfficial_melhorzincraft-back_internal_dimage_usecase_dto_CreateResponse"
                         }
                     },
                     "400": {
@@ -90,7 +90,7 @@ const docTemplate = `{
                     "200": {
                         "description": "Image found successfully",
                         "schema": {
-                            "$ref": "#/definitions/response.Response-dto_ShowResponse"
+                            "$ref": "#/definitions/response.Response-github_com_MelhorzinOfficial_melhorzincraft-back_internal_dimage_usecase_dto_ShowResponse"
                         }
                     },
                     "400": {
@@ -139,7 +139,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/dto.UpdateRequest"
+                            "$ref": "#/definitions/github_com_MelhorzinOfficial_melhorzincraft-back_internal_dimage_usecase_dto.UpdateRequest"
                         }
                     }
                 ],
@@ -147,7 +147,7 @@ const docTemplate = `{
                     "200": {
                         "description": "Image updated successfully",
                         "schema": {
-                            "$ref": "#/definitions/response.Response-dto_UpdateResponse"
+                            "$ref": "#/definitions/response.Response-github_com_MelhorzinOfficial_melhorzincraft-back_internal_dimage_usecase_dto_UpdateResponse"
                         }
                     },
                     "400": {
@@ -192,7 +192,7 @@ const docTemplate = `{
                     "200": {
                         "description": "Image deleted successfully",
                         "schema": {
-                            "$ref": "#/definitions/response.Response-dto_DeleteResponse"
+                            "$ref": "#/definitions/response.Response-github_com_MelhorzinOfficial_melhorzincraft-back_internal_dimage_usecase_dto_DeleteResponse"
                         }
                     },
                     "400": {
@@ -215,10 +215,205 @@ const docTemplate = `{
                     }
                 }
             }
+        },
+        "/game/templates": {
+            "post": {
+                "description": "Cria um novo template de jogo com o nome e docker compose especificados",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "templates"
+                ],
+                "summary": "Criar um novo template de jogo",
+                "parameters": [
+                    {
+                        "description": "Dados do template a ser criado",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/github_com_MelhorzinOfficial_melhorzincraft-back_internal_gtemplate_usecase_dto.CreateRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Template criado com sucesso",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response-github_com_MelhorzinOfficial_melhorzincraft-back_internal_gtemplate_usecase_dto_CreateResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Requisição inválida",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response-any"
+                        }
+                    },
+                    "500": {
+                        "description": "Erro interno do servidor",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response-any"
+                        }
+                    }
+                }
+            }
+        },
+        "/game/templates/{id}": {
+            "get": {
+                "description": "Obtém um template de jogo pelo ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "templates"
+                ],
+                "summary": "Obter um template de jogo",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID do Template",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Template encontrado com sucesso",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response-github_com_MelhorzinOfficial_melhorzincraft-back_internal_gtemplate_usecase_dto_ShowResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "ID inválido",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response-any"
+                        }
+                    },
+                    "404": {
+                        "description": "Template não encontrado",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response-any"
+                        }
+                    },
+                    "500": {
+                        "description": "Erro interno do servidor",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response-any"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "Atualiza um template de jogo com o nome e/ou docker compose especificados",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "templates"
+                ],
+                "summary": "Atualizar um template de jogo existente",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID do Template",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Dados do template a ser atualizado",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/github_com_MelhorzinOfficial_melhorzincraft-back_internal_gtemplate_usecase_dto.UpdateRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Template atualizado com sucesso",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response-github_com_MelhorzinOfficial_melhorzincraft-back_internal_gtemplate_usecase_dto_UpdateResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "ID inválido ou requisição inválida",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response-any"
+                        }
+                    },
+                    "404": {
+                        "description": "Template não encontrado",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response-any"
+                        }
+                    },
+                    "500": {
+                        "description": "Erro interno do servidor",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response-any"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Exclui um template de jogo pelo ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "templates"
+                ],
+                "summary": "Excluir um template de jogo",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID do Template",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Template excluído com sucesso",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response-github_com_MelhorzinOfficial_melhorzincraft-back_internal_gtemplate_usecase_dto_DeleteResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "ID inválido",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response-any"
+                        }
+                    },
+                    "404": {
+                        "description": "Template não encontrado",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response-any"
+                        }
+                    },
+                    "500": {
+                        "description": "Erro interno do servidor",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response-any"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
-        "dto.CreateRequest": {
+        "github_com_MelhorzinOfficial_melhorzincraft-back_internal_dimage_usecase_dto.CreateRequest": {
             "type": "object",
             "properties": {
                 "repository": {
@@ -229,7 +424,7 @@ const docTemplate = `{
                 }
             }
         },
-        "dto.CreateResponse": {
+        "github_com_MelhorzinOfficial_melhorzincraft-back_internal_dimage_usecase_dto.CreateResponse": {
             "type": "object",
             "properties": {
                 "created_at": {
@@ -249,10 +444,10 @@ const docTemplate = `{
                 }
             }
         },
-        "dto.DeleteResponse": {
+        "github_com_MelhorzinOfficial_melhorzincraft-back_internal_dimage_usecase_dto.DeleteResponse": {
             "type": "object"
         },
-        "dto.ShowResponse": {
+        "github_com_MelhorzinOfficial_melhorzincraft-back_internal_dimage_usecase_dto.ShowResponse": {
             "type": "object",
             "properties": {
                 "created_at": {
@@ -272,7 +467,7 @@ const docTemplate = `{
                 }
             }
         },
-        "dto.UpdateRequest": {
+        "github_com_MelhorzinOfficial_melhorzincraft-back_internal_dimage_usecase_dto.UpdateRequest": {
             "type": "object",
             "properties": {
                 "repository": {
@@ -283,7 +478,7 @@ const docTemplate = `{
                 }
             }
         },
-        "dto.UpdateResponse": {
+        "github_com_MelhorzinOfficial_melhorzincraft-back_internal_dimage_usecase_dto.UpdateResponse": {
             "type": "object",
             "properties": {
                 "created_at": {
@@ -296,6 +491,91 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "tag": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "string"
+                }
+            }
+        },
+        "github_com_MelhorzinOfficial_melhorzincraft-back_internal_gtemplate_usecase_dto.CreateRequest": {
+            "type": "object",
+            "properties": {
+                "docker_compose": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "github_com_MelhorzinOfficial_melhorzincraft-back_internal_gtemplate_usecase_dto.CreateResponse": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "docker_compose": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "string"
+                }
+            }
+        },
+        "github_com_MelhorzinOfficial_melhorzincraft-back_internal_gtemplate_usecase_dto.DeleteResponse": {
+            "type": "object"
+        },
+        "github_com_MelhorzinOfficial_melhorzincraft-back_internal_gtemplate_usecase_dto.ShowResponse": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "docker_compose": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "string"
+                }
+            }
+        },
+        "github_com_MelhorzinOfficial_melhorzincraft-back_internal_gtemplate_usecase_dto.UpdateRequest": {
+            "type": "object",
+            "properties": {
+                "docker_compose": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "github_com_MelhorzinOfficial_melhorzincraft-back_internal_gtemplate_usecase_dto.UpdateResponse": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "docker_compose": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
                     "type": "string"
                 },
                 "updated_at": {
@@ -312,44 +592,88 @@ const docTemplate = `{
                 }
             }
         },
-        "response.Response-dto_CreateResponse": {
+        "response.Response-github_com_MelhorzinOfficial_melhorzincraft-back_internal_dimage_usecase_dto_CreateResponse": {
             "type": "object",
             "properties": {
                 "data": {
-                    "$ref": "#/definitions/dto.CreateResponse"
+                    "$ref": "#/definitions/github_com_MelhorzinOfficial_melhorzincraft-back_internal_dimage_usecase_dto.CreateResponse"
                 },
                 "message": {
                     "type": "string"
                 }
             }
         },
-        "response.Response-dto_DeleteResponse": {
+        "response.Response-github_com_MelhorzinOfficial_melhorzincraft-back_internal_dimage_usecase_dto_DeleteResponse": {
             "type": "object",
             "properties": {
                 "data": {
-                    "$ref": "#/definitions/dto.DeleteResponse"
+                    "$ref": "#/definitions/github_com_MelhorzinOfficial_melhorzincraft-back_internal_dimage_usecase_dto.DeleteResponse"
                 },
                 "message": {
                     "type": "string"
                 }
             }
         },
-        "response.Response-dto_ShowResponse": {
+        "response.Response-github_com_MelhorzinOfficial_melhorzincraft-back_internal_dimage_usecase_dto_ShowResponse": {
             "type": "object",
             "properties": {
                 "data": {
-                    "$ref": "#/definitions/dto.ShowResponse"
+                    "$ref": "#/definitions/github_com_MelhorzinOfficial_melhorzincraft-back_internal_dimage_usecase_dto.ShowResponse"
                 },
                 "message": {
                     "type": "string"
                 }
             }
         },
-        "response.Response-dto_UpdateResponse": {
+        "response.Response-github_com_MelhorzinOfficial_melhorzincraft-back_internal_dimage_usecase_dto_UpdateResponse": {
             "type": "object",
             "properties": {
                 "data": {
-                    "$ref": "#/definitions/dto.UpdateResponse"
+                    "$ref": "#/definitions/github_com_MelhorzinOfficial_melhorzincraft-back_internal_dimage_usecase_dto.UpdateResponse"
+                },
+                "message": {
+                    "type": "string"
+                }
+            }
+        },
+        "response.Response-github_com_MelhorzinOfficial_melhorzincraft-back_internal_gtemplate_usecase_dto_CreateResponse": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "$ref": "#/definitions/github_com_MelhorzinOfficial_melhorzincraft-back_internal_gtemplate_usecase_dto.CreateResponse"
+                },
+                "message": {
+                    "type": "string"
+                }
+            }
+        },
+        "response.Response-github_com_MelhorzinOfficial_melhorzincraft-back_internal_gtemplate_usecase_dto_DeleteResponse": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "$ref": "#/definitions/github_com_MelhorzinOfficial_melhorzincraft-back_internal_gtemplate_usecase_dto.DeleteResponse"
+                },
+                "message": {
+                    "type": "string"
+                }
+            }
+        },
+        "response.Response-github_com_MelhorzinOfficial_melhorzincraft-back_internal_gtemplate_usecase_dto_ShowResponse": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "$ref": "#/definitions/github_com_MelhorzinOfficial_melhorzincraft-back_internal_gtemplate_usecase_dto.ShowResponse"
+                },
+                "message": {
+                    "type": "string"
+                }
+            }
+        },
+        "response.Response-github_com_MelhorzinOfficial_melhorzincraft-back_internal_gtemplate_usecase_dto_UpdateResponse": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "$ref": "#/definitions/github_com_MelhorzinOfficial_melhorzincraft-back_internal_gtemplate_usecase_dto.UpdateResponse"
                 },
                 "message": {
                     "type": "string"
