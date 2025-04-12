@@ -400,9 +400,7 @@ func TestImageUC_Delete(t *testing.T) {
 				Code:    200,
 				Error:   false,
 				Message: "success",
-				Data: dto.DeleteResponse{
-					Message: "Docker image deleted successfully",
-				},
+				Data:    dto.DeleteResponse{},
 			},
 		},
 		"not found": {
