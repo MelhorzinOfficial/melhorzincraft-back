@@ -11,7 +11,7 @@ import (
 	_ "github.com/MelhorzinOfficial/melhorzincraft-back/internal/core/response"
 )
 
-// RegisterRoutes registra as rotas de templates no router
+// RegisterRoutes registers template routes in the router
 func RegisterRoutes(g *gin.RouterGroup, templateUC *usecase.TemplateUC) {
 	h := handler{
 		templateUC: templateUC,
@@ -28,15 +28,15 @@ type handler struct {
 }
 
 // Create godoc
-// @Summary Criar um novo template de jogo
-// @Description Cria um novo template de jogo com o nome e docker compose especificados
+// @Summary Create a new game template
+// @Description Creates a new game template with the specified name and docker compose
 // @Tags templates
 // @Accept json
 // @Produce json
-// @Param request body dto.CreateRequest true "Dados do template a ser criado"
-// @Success 200 {object} response.Response[dto.CreateResponse] "Template criado com sucesso"
-// @Failure 400 {object} response.Response[any] "Requisição inválida"
-// @Failure 500 {object} response.Response[any] "Erro interno do servidor"
+// @Param request body dto.CreateRequest true "Template data to create"
+// @Success 200 {object} response.Response[dto.CreateResponse] "Template created successfully"
+// @Failure 400 {object} response.Response[any] "Bad request"
+// @Failure 500 {object} response.Response[any] "Internal server error"
 // @Router /game/templates [post]
 func (h *handler) Create(c *gin.Context) {
 	var req dto.CreateRequest
@@ -50,23 +50,23 @@ func (h *handler) Create(c *gin.Context) {
 }
 
 // Update godoc
-// @Summary Atualizar um template de jogo existente
-// @Description Atualiza um template de jogo com o nome e/ou docker compose especificados
+// @Summary Update an existing game template
+// @Description Updates a game template with the specified name and/or docker compose
 // @Tags templates
 // @Accept json
 // @Produce json
-// @Param id path int true "ID do Template"
-// @Param request body dto.UpdateRequest true "Dados do template a ser atualizado"
-// @Success 200 {object} response.Response[dto.UpdateResponse] "Template atualizado com sucesso"
-// @Failure 400 {object} response.Response[any] "ID inválido ou requisição inválida"
-// @Failure 404 {object} response.Response[any] "Template não encontrado"
-// @Failure 500 {object} response.Response[any] "Erro interno do servidor"
+// @Param id path int true "Template ID"
+// @Param request body dto.UpdateRequest true "Template data to update"
+// @Success 200 {object} response.Response[dto.UpdateResponse] "Template updated successfully"
+// @Failure 400 {object} response.Response[any] "Invalid ID or bad request"
+// @Failure 404 {object} response.Response[any] "Template not found"
+// @Failure 500 {object} response.Response[any] "Internal server error"
 // @Router /game/templates/{id} [put]
 func (h *handler) Update(c *gin.Context) {
 	idStr := c.Param("id")
 	id, err := strconv.Atoi(idStr)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "id inválido"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid id"})
 		return
 	}
 
@@ -82,21 +82,21 @@ func (h *handler) Update(c *gin.Context) {
 }
 
 // Get godoc
-// @Summary Obter um template de jogo
-// @Description Obtém um template de jogo pelo ID
+// @Summary Get a game template
+// @Description Gets a game template by ID
 // @Tags templates
 // @Produce json
-// @Param id path int true "ID do Template"
-// @Success 200 {object} response.Response[dto.ShowResponse] "Template encontrado com sucesso"
-// @Failure 400 {object} response.Response[any] "ID inválido"
-// @Failure 404 {object} response.Response[any] "Template não encontrado"
-// @Failure 500 {object} response.Response[any] "Erro interno do servidor"
+// @Param id path int true "Template ID"
+// @Success 200 {object} response.Response[dto.ShowResponse] "Template found successfully"
+// @Failure 400 {object} response.Response[any] "Invalid ID"
+// @Failure 404 {object} response.Response[any] "Template not found"
+// @Failure 500 {object} response.Response[any] "Internal server error"
 // @Router /game/templates/{id} [get]
 func (h *handler) Get(c *gin.Context) {
 	idStr := c.Param("id")
 	id, err := strconv.Atoi(idStr)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "id inválido"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid id"})
 		return
 	}
 
@@ -106,21 +106,21 @@ func (h *handler) Get(c *gin.Context) {
 }
 
 // Delete godoc
-// @Summary Excluir um template de jogo
-// @Description Exclui um template de jogo pelo ID
+// @Summary Delete a game template
+// @Description Deletes a game template by ID
 // @Tags templates
 // @Produce json
-// @Param id path int true "ID do Template"
-// @Success 200 {object} response.Response[dto.DeleteResponse] "Template excluído com sucesso"
-// @Failure 400 {object} response.Response[any] "ID inválido"
-// @Failure 404 {object} response.Response[any] "Template não encontrado"
-// @Failure 500 {object} response.Response[any] "Erro interno do servidor"
+// @Param id path int true "Template ID"
+// @Success 200 {object} response.Response[dto.DeleteResponse] "Template deleted successfully"
+// @Failure 400 {object} response.Response[any] "Invalid ID"
+// @Failure 404 {object} response.Response[any] "Template not found"
+// @Failure 500 {object} response.Response[any] "Internal server error"
 // @Router /game/templates/{id} [delete]
 func (h *handler) Delete(c *gin.Context) {
 	idStr := c.Param("id")
 	id, err := strconv.Atoi(idStr)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "id inválido"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid id"})
 		return
 	}
 
