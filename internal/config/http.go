@@ -7,6 +7,9 @@ import (
 
 	dimagedelivery "github.com/MelhorzinOfficial/melhorzincraft-back/internal/dimage/delivery"
 	dimageuc "github.com/MelhorzinOfficial/melhorzincraft-back/internal/dimage/usecase"
+
+	gtemplatedelivery "github.com/MelhorzinOfficial/melhorzincraft-back/internal/gtemplate/delivery"
+	gtemplateuc "github.com/MelhorzinOfficial/melhorzincraft-back/internal/gtemplate/usecase"
 )
 
 func httpHandler() fx.Option {
@@ -20,6 +23,7 @@ func httpHandler() fx.Option {
 func registerRoutes() fx.Option {
 	return fx.Invoke(
 		registerDockerRoutes,
+		registerGameRoutes,
 	)
 }
 
@@ -27,4 +31,10 @@ func registerDockerRoutes(e *gin.RouterGroup, dockerImageUC *dimageuc.ImageUC) {
 	group := e.Group("/docker")
 
 	dimagedelivery.RegisterRoutes(group, dockerImageUC)
+}
+
+func registerGameRoutes(e *gin.RouterGroup, gameTUC *gtemplateuc.TemplateUC) {
+	group := e.Group("/game")
+
+	gtemplatedelivery.RegisterRoutes(group, gameTUC)
 }

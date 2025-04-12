@@ -1,28 +1,13 @@
 basePath: /api/v1
 definitions:
-  dto.CreateRequest:
+  github_com_MelhorzinOfficial_melhorzincraft-back_internal_dimage_usecase_dto.CreateRequest:
     properties:
       repository:
         type: string
       tag:
         type: string
     type: object
-  dto.CreateResponse:
-    properties:
-      created_at:
-        type: string
-      id:
-        type: integer
-      repository:
-        type: string
-      tag:
-        type: string
-      updated_at:
-        type: string
-    type: object
-  dto.DeleteResponse:
-    type: object
-  dto.ShowResponse:
+  github_com_MelhorzinOfficial_melhorzincraft-back_internal_dimage_usecase_dto.CreateResponse:
     properties:
       created_at:
         type: string
@@ -35,14 +20,9 @@ definitions:
       updated_at:
         type: string
     type: object
-  dto.UpdateRequest:
-    properties:
-      repository:
-        type: string
-      tag:
-        type: string
+  github_com_MelhorzinOfficial_melhorzincraft-back_internal_dimage_usecase_dto.DeleteResponse:
     type: object
-  dto.UpdateResponse:
+  github_com_MelhorzinOfficial_melhorzincraft-back_internal_dimage_usecase_dto.ShowResponse:
     properties:
       created_at:
         type: string
@@ -51,6 +31,81 @@ definitions:
       repository:
         type: string
       tag:
+        type: string
+      updated_at:
+        type: string
+    type: object
+  github_com_MelhorzinOfficial_melhorzincraft-back_internal_dimage_usecase_dto.UpdateRequest:
+    properties:
+      repository:
+        type: string
+      tag:
+        type: string
+    type: object
+  github_com_MelhorzinOfficial_melhorzincraft-back_internal_dimage_usecase_dto.UpdateResponse:
+    properties:
+      created_at:
+        type: string
+      id:
+        type: integer
+      repository:
+        type: string
+      tag:
+        type: string
+      updated_at:
+        type: string
+    type: object
+  github_com_MelhorzinOfficial_melhorzincraft-back_internal_gtemplate_usecase_dto.CreateRequest:
+    properties:
+      docker_compose:
+        type: string
+      name:
+        type: string
+    type: object
+  github_com_MelhorzinOfficial_melhorzincraft-back_internal_gtemplate_usecase_dto.CreateResponse:
+    properties:
+      created_at:
+        type: string
+      docker_compose:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      updated_at:
+        type: string
+    type: object
+  github_com_MelhorzinOfficial_melhorzincraft-back_internal_gtemplate_usecase_dto.DeleteResponse:
+    type: object
+  github_com_MelhorzinOfficial_melhorzincraft-back_internal_gtemplate_usecase_dto.ShowResponse:
+    properties:
+      created_at:
+        type: string
+      docker_compose:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      updated_at:
+        type: string
+    type: object
+  github_com_MelhorzinOfficial_melhorzincraft-back_internal_gtemplate_usecase_dto.UpdateRequest:
+    properties:
+      docker_compose:
+        type: string
+      name:
+        type: string
+    type: object
+  github_com_MelhorzinOfficial_melhorzincraft-back_internal_gtemplate_usecase_dto.UpdateResponse:
+    properties:
+      created_at:
+        type: string
+      docker_compose:
+        type: string
+      id:
+        type: integer
+      name:
         type: string
       updated_at:
         type: string
@@ -61,31 +116,59 @@ definitions:
       message:
         type: string
     type: object
-  response.Response-dto_CreateResponse:
+  response.Response-github_com_MelhorzinOfficial_melhorzincraft-back_internal_dimage_usecase_dto_CreateResponse:
     properties:
       data:
-        $ref: '#/definitions/dto.CreateResponse'
+        $ref: '#/definitions/github_com_MelhorzinOfficial_melhorzincraft-back_internal_dimage_usecase_dto.CreateResponse'
       message:
         type: string
     type: object
-  response.Response-dto_DeleteResponse:
+  response.Response-github_com_MelhorzinOfficial_melhorzincraft-back_internal_dimage_usecase_dto_DeleteResponse:
     properties:
       data:
-        $ref: '#/definitions/dto.DeleteResponse'
+        $ref: '#/definitions/github_com_MelhorzinOfficial_melhorzincraft-back_internal_dimage_usecase_dto.DeleteResponse'
       message:
         type: string
     type: object
-  response.Response-dto_ShowResponse:
+  response.Response-github_com_MelhorzinOfficial_melhorzincraft-back_internal_dimage_usecase_dto_ShowResponse:
     properties:
       data:
-        $ref: '#/definitions/dto.ShowResponse'
+        $ref: '#/definitions/github_com_MelhorzinOfficial_melhorzincraft-back_internal_dimage_usecase_dto.ShowResponse'
       message:
         type: string
     type: object
-  response.Response-dto_UpdateResponse:
+  response.Response-github_com_MelhorzinOfficial_melhorzincraft-back_internal_dimage_usecase_dto_UpdateResponse:
     properties:
       data:
-        $ref: '#/definitions/dto.UpdateResponse'
+        $ref: '#/definitions/github_com_MelhorzinOfficial_melhorzincraft-back_internal_dimage_usecase_dto.UpdateResponse'
+      message:
+        type: string
+    type: object
+  response.Response-github_com_MelhorzinOfficial_melhorzincraft-back_internal_gtemplate_usecase_dto_CreateResponse:
+    properties:
+      data:
+        $ref: '#/definitions/github_com_MelhorzinOfficial_melhorzincraft-back_internal_gtemplate_usecase_dto.CreateResponse'
+      message:
+        type: string
+    type: object
+  response.Response-github_com_MelhorzinOfficial_melhorzincraft-back_internal_gtemplate_usecase_dto_DeleteResponse:
+    properties:
+      data:
+        $ref: '#/definitions/github_com_MelhorzinOfficial_melhorzincraft-back_internal_gtemplate_usecase_dto.DeleteResponse'
+      message:
+        type: string
+    type: object
+  response.Response-github_com_MelhorzinOfficial_melhorzincraft-back_internal_gtemplate_usecase_dto_ShowResponse:
+    properties:
+      data:
+        $ref: '#/definitions/github_com_MelhorzinOfficial_melhorzincraft-back_internal_gtemplate_usecase_dto.ShowResponse'
+      message:
+        type: string
+    type: object
+  response.Response-github_com_MelhorzinOfficial_melhorzincraft-back_internal_gtemplate_usecase_dto_UpdateResponse:
+    properties:
+      data:
+        $ref: '#/definitions/github_com_MelhorzinOfficial_melhorzincraft-back_internal_gtemplate_usecase_dto.UpdateResponse'
       message:
         type: string
     type: object
@@ -107,14 +190,14 @@ paths:
         name: request
         required: true
         schema:
-          $ref: '#/definitions/dto.CreateRequest'
+          $ref: '#/definitions/github_com_MelhorzinOfficial_melhorzincraft-back_internal_dimage_usecase_dto.CreateRequest'
       produces:
       - application/json
       responses:
         "200":
           description: Image created successfully
           schema:
-            $ref: '#/definitions/response.Response-dto_CreateResponse'
+            $ref: '#/definitions/response.Response-github_com_MelhorzinOfficial_melhorzincraft-back_internal_dimage_usecase_dto_CreateResponse'
         "400":
           description: Bad request
           schema:
@@ -145,7 +228,7 @@ paths:
         "200":
           description: Image deleted successfully
           schema:
-            $ref: '#/definitions/response.Response-dto_DeleteResponse'
+            $ref: '#/definitions/response.Response-github_com_MelhorzinOfficial_melhorzincraft-back_internal_dimage_usecase_dto_DeleteResponse'
         "400":
           description: Invalid ID
           schema:
@@ -175,7 +258,7 @@ paths:
         "200":
           description: Image found successfully
           schema:
-            $ref: '#/definitions/response.Response-dto_ShowResponse'
+            $ref: '#/definitions/response.Response-github_com_MelhorzinOfficial_melhorzincraft-back_internal_dimage_usecase_dto_ShowResponse'
         "400":
           description: Invalid ID
           schema:
@@ -206,14 +289,14 @@ paths:
         name: request
         required: true
         schema:
-          $ref: '#/definitions/dto.UpdateRequest'
+          $ref: '#/definitions/github_com_MelhorzinOfficial_melhorzincraft-back_internal_dimage_usecase_dto.UpdateRequest'
       produces:
       - application/json
       responses:
         "200":
           description: Image updated successfully
           schema:
-            $ref: '#/definitions/response.Response-dto_UpdateResponse'
+            $ref: '#/definitions/response.Response-github_com_MelhorzinOfficial_melhorzincraft-back_internal_dimage_usecase_dto_UpdateResponse'
         "400":
           description: Invalid ID or bad request
           schema:
@@ -229,4 +312,133 @@ paths:
       summary: Update an existing Docker image
       tags:
       - images
+  /game/templates:
+    post:
+      consumes:
+      - application/json
+      description: Cria um novo template de jogo com o nome e docker compose especificados
+      parameters:
+      - description: Dados do template a ser criado
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_MelhorzinOfficial_melhorzincraft-back_internal_gtemplate_usecase_dto.CreateRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Template criado com sucesso
+          schema:
+            $ref: '#/definitions/response.Response-github_com_MelhorzinOfficial_melhorzincraft-back_internal_gtemplate_usecase_dto_CreateResponse'
+        "400":
+          description: Requisição inválida
+          schema:
+            $ref: '#/definitions/response.Response-any'
+        "500":
+          description: Erro interno do servidor
+          schema:
+            $ref: '#/definitions/response.Response-any'
+      summary: Criar um novo template de jogo
+      tags:
+      - templates
+  /game/templates/{id}:
+    delete:
+      description: Exclui um template de jogo pelo ID
+      parameters:
+      - description: ID do Template
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Template excluído com sucesso
+          schema:
+            $ref: '#/definitions/response.Response-github_com_MelhorzinOfficial_melhorzincraft-back_internal_gtemplate_usecase_dto_DeleteResponse'
+        "400":
+          description: ID inválido
+          schema:
+            $ref: '#/definitions/response.Response-any'
+        "404":
+          description: Template não encontrado
+          schema:
+            $ref: '#/definitions/response.Response-any'
+        "500":
+          description: Erro interno do servidor
+          schema:
+            $ref: '#/definitions/response.Response-any'
+      summary: Excluir um template de jogo
+      tags:
+      - templates
+    get:
+      description: Obtém um template de jogo pelo ID
+      parameters:
+      - description: ID do Template
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Template encontrado com sucesso
+          schema:
+            $ref: '#/definitions/response.Response-github_com_MelhorzinOfficial_melhorzincraft-back_internal_gtemplate_usecase_dto_ShowResponse'
+        "400":
+          description: ID inválido
+          schema:
+            $ref: '#/definitions/response.Response-any'
+        "404":
+          description: Template não encontrado
+          schema:
+            $ref: '#/definitions/response.Response-any'
+        "500":
+          description: Erro interno do servidor
+          schema:
+            $ref: '#/definitions/response.Response-any'
+      summary: Obter um template de jogo
+      tags:
+      - templates
+    put:
+      consumes:
+      - application/json
+      description: Atualiza um template de jogo com o nome e/ou docker compose especificados
+      parameters:
+      - description: ID do Template
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Dados do template a ser atualizado
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_MelhorzinOfficial_melhorzincraft-back_internal_gtemplate_usecase_dto.UpdateRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Template atualizado com sucesso
+          schema:
+            $ref: '#/definitions/response.Response-github_com_MelhorzinOfficial_melhorzincraft-back_internal_gtemplate_usecase_dto_UpdateResponse'
+        "400":
+          description: ID inválido ou requisição inválida
+          schema:
+            $ref: '#/definitions/response.Response-any'
+        "404":
+          description: Template não encontrado
+          schema:
+            $ref: '#/definitions/response.Response-any'
+        "500":
+          description: Erro interno do servidor
+          schema:
+            $ref: '#/definitions/response.Response-any'
+      summary: Atualizar um template de jogo existente
+      tags:
+      - templates
 swagger: "2.0"
